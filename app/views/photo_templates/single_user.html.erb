@@ -1,0 +1,113 @@
+<html><head>
+    <title>Target: Photogram GUI</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+  </head>
+
+  <body>
+    <nav>
+      <ul>
+        <li>
+          <a href="/users">Users</a>
+        </li>
+        <li>
+          <a href="/photos">Photos</a>
+        </li>
+      </ul>
+    </nav>
+
+    <h1>Photo Details</h1>
+
+<dl>
+  <dt>
+    Image
+  </dt>
+  <dd>
+    <img src="<%= @post.image %>" height="300px">
+  </dd>
+
+  <dt>
+    Caption
+  </dt>
+  <dd>
+    <p>
+      <%= @post.caption %>
+    </p>
+  </dd>
+
+  <dt>
+    Owner
+  </dt>
+  <dd>
+    <%= @post.poster.username %>
+  </dd>
+
+  <dt>
+    Posted
+  </dt>
+  <dd>
+    2019-04-27 11:56:39 UTC
+  </dd>
+
+  <dt>
+    Edit photo
+  </dt>
+  <dd>
+    <form action="/update_photo/<%= @post.id %>" method="post">
+      <label for="browser_image">Image</label>
+      <input id="browser_image" type="text" name="input_ixmage" placeholder="Enter a URL for the image..." value="<%= @post.image %>">
+
+      <label for="browser_caption">Caption</label>
+      <textarea id="browser_caption" name="input_caption" placeholder="Enter a caption for the photo..."><%= @post.caption %></textarea>
+
+      <button>Update photo</button>
+    </form>
+  </dd>
+
+  <dt>
+    Delete photo
+  </dt>
+  <dd>
+    <a href="/delete_photo/<%= @post.id %>">
+      Delete this photo
+    </a>
+  </dd>
+</dl>
+
+<h2>Comments</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Commenter</th>
+      <th>Comment</th>
+      <th>Posted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @comments.each do |comment| %>
+      <tr>
+        <td><%= comment.commenter.username %></td>
+        <td><%= comment.body %></td>
+        <td><%= comment.created_at.strftime("%Y-%m-%d %H:%M:%S %Z") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h3>Add a new comment</h3>
+
+<form action="/add_comment" method="post">
+  <label for="browser_photo_id">Photo ID</label>
+  <input id="browser_photo_id" type="text" placeholder="Enter the photo ID" name="input_photo_id" value="<%= @post.id %>">
+
+  <label for="browser_author_id">Author ID</label>
+  <input id="browser_author_id" type="text" placeholder="Enter your author ID" name="input_author_id">
+
+  <label for="browser_comment">Comment</label>
+  <textarea id="browser_comment" type="text" placeholder="Enter a comment..." name="input_comment"></textarea>
+
+  <button>Add comment</button>
+</form>
+</body>
+</html>
